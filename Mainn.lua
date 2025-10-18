@@ -178,7 +178,7 @@ lel.Name = "Logo"
 
 lel.Size = UDim2.new(0, 100, 0, 100)
 
-lel.Position = UDim2.new(-0.127000004, 0, 0.407999992, 0)
+lel.Position = UDim2.new(-0.127000004.1, 0, 0.407999992.1, 0)
 
 lel.BackgroundColor3 = Color3.new(0,0,0)
 
@@ -196,7 +196,7 @@ local Ring = Instance.new("ImageLabel")
 
 Ring.Name = "Ring"
 
-Ring.Size = UDim2.new(2,0,2,0)
+Ring.Size = UDim2.new(1.1,0,1.1,0)
 
 Ring.Position = UDim2.new(0,0,0,0)
 
