@@ -362,7 +362,7 @@ scriptBox.TextWrapped = true
 
 scriptBox.ClipsDescendants = true
 
-scriptBox.Text = "script by kvsna3545"
+scriptBox.Text = "by kvsna3545"
 
 scriptBox.Parent = frame
 
