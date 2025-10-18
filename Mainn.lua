@@ -152,7 +152,16 @@ local scripts = {
 
 	{"Xester.txt","https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"},
 
-	{"PROJECT Hacker 1.0","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Project_Hacker_1.0.lua"},
+	{"PROJECT Hacker 1.0.txt","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Project_Hacker_1.0.lua"},
+
+	{"Script Primadon.txt","https://pastebin.com/raw/37iQzQp3"},
+
+	{"Thank you Project.txt","https://raw.githubusercontent.com/kvsna3545-pixel/Thank-you-project/refs/heads/main/Main.lua"},
+
+	{"hacking by WQS_Hax7L8.txt","https://pastebin.com/raw/8Dq9i6we"},
+
+    {"R6.txt","https://pastebin.com/raw/nP15eqg4"},
+	
 
 }
 
@@ -298,7 +307,7 @@ titleBar.Position = UDim2.new(0,0,0,0)
 
 titleBar.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
-titleBar.Text = "   kvsna3545 SS"
+titleBar.Text = "   kvsna3545 SS V.1.23"
 
 titleBar.TextColor3 = Color3.fromRGB(255,255,255)
 
