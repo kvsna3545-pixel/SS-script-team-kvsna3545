@@ -152,7 +152,7 @@ local scripts = {
 
 	{"Xester.txt","https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"},
 
-    {"Hacker_Project_1.txt","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Hacker_Project_1.0.lua"},
+	{"PROJECT Hacker 1.0","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Project_Hacker_1.0.lua"},
 
 }
 
@@ -178,7 +178,7 @@ lel.Name = "Logo"
 
 lel.Size = UDim2.new(0, 100, 0, 100)
 
-lel.Position = UDim2.new(-0.127000004.1, 0, 0.407999992.1, 0)
+lel.Position = UDim2.new(-0.127000004, 0, 0.407999992, 0)
 
 lel.BackgroundColor3 = Color3.new(0,0,0)
 
@@ -224,7 +224,7 @@ Orbit.BackgroundColor3 = Color3.new(0,0,0)
 
 Orbit.ImageColor3 = Color3.new(1,1,1)
 
-Orbit.Image = "rbxassetid://99168471635791"
+Orbit.Image = "rbxassetid://0"
 
 Orbit.Parent = Ring
 
@@ -362,7 +362,7 @@ scriptBox.TextWrapped = true
 
 scriptBox.ClipsDescendants = true
 
-scriptBox.Text = "by kvsna3545"
+scriptBox.Text = "script by kvsna3545"
 
 scriptBox.Parent = frame
 
