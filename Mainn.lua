@@ -152,7 +152,7 @@ local scripts = {
 
 	{"Xester.txt","https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"},
 
-  {"Hacker_Project_1.txt","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Project_Hacker_1.0"},
+    {"Hacker_Project_1.txt","https://raw.githubusercontent.com/kvsna3545-pixel/Hacker_Project_1/refs/heads/main/Hacker_Project_1.0.lua"},
 
 }
 
