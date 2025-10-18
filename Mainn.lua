@@ -162,7 +162,25 @@ local scripts = {
 
     {"R6.txt","https://pastebin.com/raw/nP15eqg4"},
 
-	{"Nebula Star Glitcher (by fancykid)", "https://pastebin.com/raw/j09BnGB3"}, {"Lua Hammer", "https://pastefy.app/Nh7FVtvC/raw"}, {"Ak47", "https://raw.githubusercontent.com/sinret/rbxscript.com-scripts-reuploads-/main/ak47"}, {"Private Gui", "https://ghostplayer352.github.io/Authorization/"}, {"My Old Gui", "https://pastebin.com/raw/MMUX0irp"}, {"Mlg Particles", "https://pastebin.com/raw/ZPzjyL1M"}, {"Good Cop Bad Cop", "https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/KwuminKa.txt"}, {"Xester", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"}, {"Vereus", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/fLrx77PM.txt"}, {"SpiderBot", "https://pastebin.com/raw/XNVWznPH"},
+	{"Nebula Star Glitcher (by fancykid)", "https://pastebin.com/raw/j09BnGB3"},
+	
+	{"Lua Hammer", "https://pastefy.app/Nh7FVtvC/raw"},
+	
+	{"Ak47", "https://raw.githubusercontent.com/sinret/rbxscript.com-scripts-reuploads-/main/ak47"}, 
+	
+	{"Private Gui", "https://ghostplayer352.github.io/Authorization/"}, 
+	
+	{"My Old Gui", "https://pastebin.com/raw/MMUX0irp"}, 
+	
+	{"Mlg Particles", "https://pastebin.com/raw/ZPzjyL1M"},
+	
+	{"Good Cop Bad Cop", "https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/KwuminKa.txt"}, 
+	
+	{"Xester", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"}, 
+	
+	{"Vereus", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/fLrx77PM.txt"}, 
+	
+	{"SpiderBot", "https://pastebin.com/raw/XNVWznPH"},
 
     {"Lalol hub", "https://raw.githubusercontent.com/Its-LALOL/LALOL-Hub/main/Backdoor-Scanner/script"},
 
