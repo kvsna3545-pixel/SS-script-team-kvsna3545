@@ -196,7 +196,7 @@ local Ring = Instance.new("ImageLabel")
 
 Ring.Name = "Ring"
 
-Ring.Size = UDim2.new(1,0,1,0)
+Ring.Size = UDim2.new(2,0,2,0)
 
 Ring.Position = UDim2.new(0,0,0,0)
 
@@ -344,7 +344,7 @@ scriptBox.Position = UDim2.new(0, 10, 0, 35)
 
 scriptBox.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
-scriptBox.TextColor3 = Color3.fromRGB(0,0,0)
+scriptBox.TextColor3 = Color3.fromRGB(255,255,255)
 
 scriptBox.Font = Enum.Font.Code
 
