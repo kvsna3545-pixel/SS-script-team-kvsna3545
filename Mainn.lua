@@ -184,7 +184,7 @@ lel.BackgroundColor3 = Color3.new(0,0,0)
 
 lel.ImageColor3 = Color3.new(1,1,1)
 
-lel.Image = "rbxassetid://135105450142710"
+lel.Image = "rbxassetid://99168471635791"
 
 lel.Parent = logoGui
 
@@ -224,7 +224,7 @@ Orbit.BackgroundColor3 = Color3.new(0,0,0)
 
 Orbit.ImageColor3 = Color3.new(1,1,1)
 
-Orbit.Image = "rbxassetid://135105450142710"
+Orbit.Image = "rbxassetid://0"
 
 Orbit.Parent = Ring
 
@@ -300,7 +300,7 @@ titleBar.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
 titleBar.Text = "   kvsna3545 SS"
 
-titleBar.TextColor3 = Color3.fromRGB(0,0,0)
+titleBar.TextColor3 = Color3.fromRGB(255,255,255)
 
 titleBar.Font = Enum.Font.SourceSansBold
 
