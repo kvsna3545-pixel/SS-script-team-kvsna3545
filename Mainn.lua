@@ -224,7 +224,7 @@ Orbit.BackgroundColor3 = Color3.new(0,0,0)
 
 Orbit.ImageColor3 = Color3.new(1,1,1)
 
-Orbit.Image = "rbxassetid://0"
+Orbit.Image = "rbxassetid://99168471635791"
 
 Orbit.Parent = Ring
 
@@ -362,7 +362,7 @@ scriptBox.TextWrapped = true
 
 scriptBox.ClipsDescendants = true
 
-scriptBox.Text = ""
+scriptBox.Text = "script by kvsna3545"
 
 scriptBox.Parent = frame
 
