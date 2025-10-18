@@ -300,7 +300,7 @@ titleBar.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
 titleBar.Text = "   kvsna3545 SS"
 
-titleBar.TextColor3 = Color3.fromRGB(255,255,255)
+titleBar.TextColor3 = Color3.fromRGB(0,0,0)
 
 titleBar.Font = Enum.Font.SourceSansBold
 
@@ -386,7 +386,7 @@ executeButton.Size = UDim2.new(0, 120, 0, 30)
 
 executeButton.Position = UDim2.new(0, 10, 1, -45)
 
-executeButton.BackgroundColor3 = Color3.fromRGB(255,255,255)
+executeButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
 executeButton.BorderColor3 = Color3.fromRGB(0,0,0)
 
@@ -394,7 +394,7 @@ executeButton.BorderSizePixel = 2
 
 executeButton.Text = "Execute"
 
-executeButton.TextColor3 = Color3.fromRGB(0,0,0)
+executeButton.TextColor3 = Color3.fromRGB(255,255,255)
 
 executeButton.Font = Enum.Font.SourceSansBold
 
@@ -412,7 +412,7 @@ clearButton.Size = UDim2.new(0, 120, 0, 30)
 
 clearButton.Position = UDim2.new(0, 140, 1, -45)
 
-clearButton.BackgroundColor3 = Color3.fromRGB(255,255,255)
+clearButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
 
 clearButton.BorderColor3 = Color3.fromRGB(0,0,0)
 
@@ -420,7 +420,7 @@ clearButton.BorderSizePixel = 2
 
 clearButton.Text = "Clear"
 
-clearButton.TextColor3 = Color3.fromRGB(0,0,0)
+clearButton.TextColor3 = Color3.fromRGB(255,255,255)
 
 clearButton.Font = Enum.Font.SourceSansBold
 
