@@ -204,7 +204,7 @@ Ring.BackgroundColor3 = Color3.new(0,0,0)
 
 Ring.ImageColor3 = Color3.new(0,0,0)
 
-Ring.Image = "rbxassetid://0"
+Ring.Image = "rbxassetid://137668646242348"
 
 Ring.Parent = lel
 
