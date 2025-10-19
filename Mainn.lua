@@ -38,10 +38,6 @@ local scripts = {
 
 	{"Gaster Hands.txt","https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/GasterHands.txt"},
 
-	{"Good Cop Bad Cop.txt","https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/KwuminKa.txt"},
-
-	{"Goner.txt","https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Goner.lua"},
-
 	{"Grab Knife v1.txt","https://raw.githubusercontent.com/retpirato/Roblox-Scripts/refs/heads/master/Grab%20Knife%20V1.lua"},
 
 	{"Grab Knife v2.txt","https://raw.githubusercontent.com/retpirato/Roblox-Scripts/refs/heads/master/Grab%20Knife%20V2.lua"},
@@ -49,8 +45,6 @@ local scripts = {
 	{"Grab Knife v3.txt","https://rawscripts.net/raw/Universal-Script-grab-knife-v3-9232"},
 
 	{"Grab Knife v4.txt","https://raw.githubusercontent.com/Icalock/Server/refs/heads/main/Grab%20V4.txt"},
-
-	{"Grakkeda.txt","https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt"},
 
 	{"Incension.txt","https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/Incension%20Reborn"},
 
@@ -414,16 +408,13 @@ local scripts = {
 	
     {"Gaster Hands", "https://raw.githubusercontent.com/nicolasbarbosa323/good-cop-bad-coop/refs/heads/main/GasterHands.txt"},
 	
-    {"Ban Hammer", "https://raw.githubusercontent.com/nicolasbarbosa323/ban-hammer/refs/heads/main/ban"},
-	
     {"Xester", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/qC7MUFRJ.txt"},
+	
     {"Grakkeda", "https://raw.githubusercontent.com/nicolasbarbosa323/grakkeda/refs/heads/main/Roblox%20Genkadda%20omega%20leaked.txt"},
 	
     {"Spectrum Glitcher", "https://raw.githubusercontent.com/nicolasbarbosa323/SCPECTRUMGLITCHER/refs/heads/main/SpectrumG%20(1).txt"},
 	
     {"Kirito Blades", "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/Kirito%20Blades.txt"},
-	
-    {"The Angel", "https://raw.githubusercontent.com/nicolasbarbosa323/the-angel/refs/heads/main/The%20Angel.txt"},
 	
     {"Vereus", "https://raw.githubusercontent.com/nicolasbarbosa323/xester/refs/heads/main/fLrx77PM.txt"},
 	
@@ -591,7 +582,7 @@ lel.BackgroundColor3 = Color3.new(0,0,0)
 
 lel.ImageColor3 = Color3.new(1,1,1)
 
-lel.Image = "rbxassetid://99168471635791"
+lel.Image = "rbxassetid://109398323526545"
 
 lel.Parent = logoGui
 
@@ -631,7 +622,7 @@ Orbit.BackgroundColor3 = Color3.new(0,0,0)
 
 Orbit.ImageColor3 = Color3.new(1,1,1)
 
-Orbit.Image = "rbxassetid://0"
+Orbit.Image = "rbxassetid://109398323526545"
 
 Orbit.Parent = Ring
 
@@ -769,7 +760,7 @@ scriptBox.TextWrapped = true
 
 scriptBox.ClipsDescendants = true
 
-scriptBox.Text = "script by kvsna3545 V.1.23 :)"
+scriptBox.Text = "script by kvsna3545 V.2.48 :)"
 
 scriptBox.Parent = frame
 
