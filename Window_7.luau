@@ -260,17 +260,23 @@ end)
 
 local scanning = false
 local FinishedFound = false
-local remoteEvent = nil
-local remoteFunction = nil
+local foundList = {}
 local scanTime = 0
 
+-- คำต้องสงสัยเพิ่มเติม
 local SUSPICIOUS_NAMES = {
-    "backdoor","bd","remote","exec","execute","run",
-    "eval","cmd","command","hack","bypass","exploit",
-    "admin","sys","system","hidden","secret","free",
-    "load","require","inject","fire","trigger","payload"
+    "backdoor","bd","exec","execute","run","eval",
+    "cmd","command","hack","bypass","exploit","admin",
+    "sys","system","hidden","secret","load","require",
+    "inject","fire","trigger","payload","remote","re",
+    "rc","ss","serverside","srv","gate","entry","hook",
+    "loader","init","start","launch","deploy","call",
+    "sender","receiver","bridge","tunnel","pipe","link",
+    "connect","auth","key","token","pass","code","data",
+    "test","temp","tmp","unnamed","script","module",
 }
 
+-- ที่อยู่ทั้งหมดที่ client มองเห็น
 local SCAN_LOCATIONS = {
     game:GetService("Workspace"),
     game:GetService("ReplicatedStorage"),
@@ -280,20 +286,46 @@ local SCAN_LOCATIONS = {
     game:GetService("StarterPlayer"),
     game:GetService("Lighting"),
     game:GetService("Players"),
+    game:GetService("SoundService"),
+    game:GetService("Teams"),
+    game:GetService("Chat"),
 }
 
 local function isSuspicious(name)
+    if name == "" or name:match("^%s+$") then return true end
     local lower = name:lower()
-    for _, keyword in ipairs(SUSPICIOUS_NAMES) do
-        if lower:find(keyword) then return true end
+    for _, kw in ipairs(SUSPICIOUS_NAMES) do
+        if lower == kw or lower:find(kw) then return true end
     end
     return false
 end
 
--- ฟังก์ชันสแกนหลัก
+-- เช็คชื่อที่สั้นเกินไป (มักเป็น backdoor)
+local function isShortName(name)
+    return #name <= 2 and name ~= ""
+end
+
+-- เช็ค script ที่ถูก Disable ซ่อนอยู่
+local function isHiddenScript(obj)
+    if obj:IsA("BaseScript") or obj:IsA("ModuleScript") then
+        if obj.Disabled == true then return true end
+    end
+    return false
+end
+
+-- เช็คตำแหน่งผิดปกติ เช่น Script อยู่ใน Part
+local function isWeirdLocation(obj)
+    local parent = obj.Parent
+    if not parent then return false end
+    local weirdHosts = {"Part","MeshPart","UnionOperation","SpecialMesh","Sound","Decal","Texture"}
+    for _, host in ipairs(weirdHosts) do
+        if parent:IsA(host) then return true end
+    end
+    return false
+end
+
 local function findRemote()
-    remoteEvent = nil
-    remoteFunction = nil
+    foundList = {}
     FinishedFound = false
     local startTime = tick()
 
@@ -301,89 +333,165 @@ local function findRemote()
         local ok, descendants = pcall(function()
             return location:GetDescendants()
         end)
-        if ok then
-            for _, obj in ipairs(descendants) do
-                local name = obj.Name
-                if obj.ClassName == "RemoteEvent" and isSuspicious(name) then
-                    remoteEvent = obj
-                    break
-                elseif obj.ClassName == "RemoteFunction" and isSuspicious(name) then
-                    remoteFunction = obj
-                    break
+        if not ok then continue end
+
+        for _, obj in ipairs(descendants) do
+            local name = obj.Name
+            local class = obj.ClassName
+            local entry = nil
+
+            -- 1. RemoteEvent / RemoteFunction ชื่อต้องสงสัย
+            if (class == "RemoteEvent" or class == "RemoteFunction") then
+                if isSuspicious(name) or isShortName(name) then
+                    entry = {
+                        icon  = "🟢",
+                        class = class,
+                        name  = name,
+                        path  = obj:GetFullName(),
+                        reason = "Suspicious remote name",
+                    }
+                end
+            end
+
+            -- 2. Script / LocalScript / ModuleScript ต้องสงสัย
+            if class == "Script" or class == "LocalScript" or class == "ModuleScript" then
+                if isSuspicious(name) or isShortName(name) then
+                    entry = {
+                        icon  = "🟢",
+                        class = class,
+                        name  = name,
+                        path  = obj:GetFullName(),
+                        reason = "Suspicious script name",
+                    }
+                elseif isHiddenScript(obj) then
+                    entry = {
+                        icon  = "🟢",
+                        class = class,
+                        name  = name,
+                        path  = obj:GetFullName(),
+                        reason = "Disabled/hidden script",
+                    }
+                elseif isWeirdLocation(obj) then
+                    entry = {
+                        icon  = "🟢",
+                        class = class,
+                        name  = name,
+                        path  = obj:GetFullName(),
+                        reason = "Script in weird location",
+                    }
+                end
+            end
+
+            -- 3. BindableEvent / BindableFunction ชื่อต้องสงสัย
+            if class == "BindableEvent" or class == "BindableFunction" then
+                if isSuspicious(name) or isShortName(name) then
+                    entry = {
+                        icon  = "🟢",
+                        class = class,
+                        name  = name,
+                        path  = obj:GetFullName(),
+                        reason = "Suspicious bindable name",
+                    }
+                end
+            end
+
+            -- 4. Object ชื่อว่าง หรือ space ล้วน
+            if name == "" or name:match("^%s+$") then
+                entry = {
+                    icon  = "🟢",
+                    class = class,
+                    name  = "[blank name]",
+                    path  = obj:GetFullName(),
+                    reason = "Hidden (blank name)",
+                }
+            end
+
+            -- 5. ชื่อสั้น 1-2 ตัวอักษรใน remote
+            if (class == "RemoteEvent" or class == "RemoteFunction") and isShortName(name) then
+                entry = {
+                    icon  = "🟢",
+                    class = class,
+                    name  = name,
+                    path  = obj:GetFullName(),
+                    reason = "Very short remote name (suspicious)",
+                }
+            end
+
+            if entry then
+                -- กันซ้ำ
+                local dup = false
+                for _, v in ipairs(foundList) do
+                    if v.path == entry.path then dup = true break end
+                end
+                if not dup then
+                    table.insert(foundList, entry)
                 end
             end
         end
-        if remoteEvent or remoteFunction then break end
     end
 
     scanTime = math.floor((tick() - startTime) * 100) / 100
     FinishedFound = true
 end
 
--- ปุ่ม Scan
 local function doScan()
     if scanning then return end
     scanning = true
     FinishedFound = false
 
-    -- UI: เริ่ม scan
     TextButton_19.Visible = false
     TextButton_17.Visible = false
-    TextBox_7.Text = "🔍 Scanning for backdoors..."
+    TextBox_7.Text = "🔍 Deep scanning for backdoors..."
     setStatus("Scanning...", Color3.fromRGB(255, 184, 71))
 
     task.spawn(findRemote)
 
-    -- รอจนเสร็จ
-    repeat task.wait() until FinishedFound or remoteEvent or remoteFunction
     repeat task.wait() until FinishedFound
 
-    if remoteEvent or remoteFunction then
-        -- เจอ backdoor
-        local foundName = (remoteEvent and remoteEvent.Name)
-            or (remoteFunction and remoteFunction.Name)
-            or "unknown"
-        local foundPath = (remoteEvent and remoteEvent:GetFullName())
-            or (remoteFunction and remoteFunction:GetFullName())
-            or "unknown"
-        local foundClass = (remoteEvent and "RemoteEvent")
-            or (remoteFunction and "RemoteFunction")
-            or "unknown"
+    local lines = {}
 
-        TextBox_7.Text = table.concat({
-            "====== BACKDOOR FOUND ======",
-            "🟢 " .. foundClass,
-            "    Name : " .. foundName,
-            "    Path : " .. foundPath,
-            "    Time : " .. scanTime .. "s",
-            "============================",
-        }, "\n")
+    if #foundList > 0 then
+        table.insert(lines, "====== BACKDOOR SCAN REPORT ======")
+        table.insert(lines, "⏱ Time   : " .. scanTime .. "s")
+        table.insert(lines, "🟢 Found  : " .. #foundList .. " suspicious item(s)")
+        table.insert(lines, "----------------------------------")
 
-        setStatus("Found: " .. foundName, Color3.fromRGB(159, 226, 191))
+        for i, item in ipairs(foundList) do
+            table.insert(lines, string.format(
+                "[%d] %s %s\n    Class  : %s\n    Name   : %s\n    Path   : %s\n    Reason : %s",
+                i, item.icon, item.name,
+                item.class, item.name,
+                item.path, item.reason
+            ))
+        end
 
-        -- แจ้งเตือน Notification
+        table.insert(lines, "----------------------------------")
+        table.insert(lines, "⚠ Check items above carefully!")
+        table.insert(lines, "==================================")
+
+        TextBox_7.Text = table.concat(lines, "\n")
+        setStatus("Found " .. #foundList .. " item(s)!", Color3.fromRGB(159, 226, 191))
+
+        -- Notification
+        local firstName = foundList[1].name
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "🔍 Backdoor Scanner",
-            Text = "Backdoor found in " .. scanTime .. "s!\n" .. foundClass .. ": " .. foundName,
-            Duration = 5,
+            Text = "Found " .. #foundList .. " suspect(s) in " .. scanTime .. "s!\nFirst: " .. firstName,
+            Duration = 6,
         })
 
     else
-        -- ไม่เจอ
-        TextBox_7.Text = table.concat({
-            "====== SCAN COMPLETE ======",
-            "✅ No backdoors found!",
-            "   Scanned in " .. scanTime .. "s",
-            "   Map looks clean.",
-            "===========================",
-        }, "\n")
+        table.insert(lines, "====== SCAN COMPLETE ======")
+        table.insert(lines, "✅ No backdoors found!")
+        table.insert(lines, "⏱ Time : " .. scanTime .. "s")
+        table.insert(lines, "   Map looks clean.")
+        table.insert(lines, "===========================")
 
+        TextBox_7.Text = table.concat(lines, "\n")
         setStatus("Clean! ✅", Color3.fromRGB(100, 255, 150))
-
         task.wait(3)
     end
 
-    -- UI: คืนปุ่ม scan
     TextButton_19.Visible = true
     TextButton_17.Visible = true
     scanning = false
