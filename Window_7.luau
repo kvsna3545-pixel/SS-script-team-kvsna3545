@@ -254,7 +254,16 @@ TextButton_15.MouseButton1Click:Connect(function()
     end
 end)
 
--- [SCAN] สแกนหา Backdoor
+-- ============================================================
+--                    SCAN SYSTEM (NEW)
+-- ============================================================
+
+local scanning = false
+local FinishedFound = false
+local remoteEvent = nil
+local remoteFunction = nil
+local scanTime = 0
+
 local SUSPICIOUS_NAMES = {
     "backdoor","bd","remote","exec","execute","run",
     "eval","cmd","command","hack","bypass","exploit",
@@ -281,86 +290,103 @@ local function isSuspicious(name)
     return false
 end
 
-local function scanForBackdoors()
-    local found = {}
-    local scanned = 0
+-- ฟังก์ชันสแกนหลัก
+local function findRemote()
+    remoteEvent = nil
+    remoteFunction = nil
+    FinishedFound = false
+    local startTime = tick()
 
     for _, location in ipairs(SCAN_LOCATIONS) do
-        local ok, children = pcall(function()
+        local ok, descendants = pcall(function()
             return location:GetDescendants()
         end)
         if ok then
-            for _, obj in ipairs(children) do
-                scanned += 1
-                local className = obj.ClassName
+            for _, obj in ipairs(descendants) do
                 local name = obj.Name
-
-                if (className == "RemoteEvent" or className == "RemoteFunction") and isSuspicious(name) then
-                    table.insert(found, {
-                        type = "🟢 " .. className,
-                        name = name,
-                        path = obj:GetFullName()
-                    })
-                end
-
-                if (className == "Script" or className == "LocalScript" or className == "ModuleScript") and isSuspicious(name) then
-                    table.insert(found, {
-                        type = "🟢 " .. className,
-                        name = name,
-                        path = obj:GetFullName()
-                    })
-                end
-
-                if name == "" or name == " " or name:match("^%s+$") then
-                    table.insert(found, {
-                        type = "🟢 Hidden(" .. className .. ")",
-                        name = "[blank name]",
-                        path = obj:GetFullName()
-                    })
+                if obj.ClassName == "RemoteEvent" and isSuspicious(name) then
+                    remoteEvent = obj
+                    break
+                elseif obj.ClassName == "RemoteFunction" and isSuspicious(name) then
+                    remoteFunction = obj
+                    break
                 end
             end
         end
+        if remoteEvent or remoteFunction then break end
     end
 
-    return found, scanned
+    scanTime = math.floor((tick() - startTime) * 100) / 100
+    FinishedFound = true
 end
 
+-- ปุ่ม Scan
 local function doScan()
-    setStatus("Scanning...", Color3.fromRGB(255, 220, 50))
-    TextBox_7.Text = "Scanning for backdoors, please wait..."
+    if scanning then return end
+    scanning = true
+    FinishedFound = false
 
-    task.spawn(function()
-        local found, scanned = scanForBackdoors()
-        local lines = {}
+    -- UI: เริ่ม scan
+    TextButton_19.Visible = false
+    TextButton_17.Visible = false
+    TextBox_7.Text = "🔍 Scanning for backdoors..."
+    setStatus("Scanning...", Color3.fromRGB(255, 184, 71))
 
-        table.insert(lines, "====== BACKDOOR SCAN ======")
-        table.insert(lines, "Scanned: " .. scanned .. " objects")
-        table.insert(lines, "Found: " .. #found .. " suspicious item(s)")
-        table.insert(lines, "---------------------------")
+    task.spawn(findRemote)
 
-        if #found == 0 then
-            table.insert(lines, "✅ No backdoors found!")
-            table.insert(lines, "Map looks clean.")
-        else
-            for i, item in ipairs(found) do
-                table.insert(lines, string.format(
-                    "[%d] %s\n    Name: %s\n    Path: %s",
-                    i, item.type, item.name, item.path
-                ))
-            end
-            table.insert(lines, "---------------------------")
-            table.insert(lines, "⚠ Review items above carefully!")
-        end
+    -- รอจนเสร็จ
+    repeat task.wait() until FinishedFound or remoteEvent or remoteFunction
+    repeat task.wait() until FinishedFound
 
-        table.insert(lines, "===========================")
-        TextBox_7.Text = table.concat(lines, "\n")
+    if remoteEvent or remoteFunction then
+        -- เจอ backdoor
+        local foundName = (remoteEvent and remoteEvent.Name)
+            or (remoteFunction and remoteFunction.Name)
+            or "unknown"
+        local foundPath = (remoteEvent and remoteEvent:GetFullName())
+            or (remoteFunction and remoteFunction:GetFullName())
+            or "unknown"
+        local foundClass = (remoteEvent and "RemoteEvent")
+            or (remoteFunction and "RemoteFunction")
+            or "unknown"
 
-        if #found == 0 then
-            setStatus("Clean! ✅", Color3.fromRGB(100, 255, 150))
-        else
-            setStatus("Found " .. #found .. "!", Color3.fromRGB(255, 100, 100))
-        end
-    end)
+        TextBox_7.Text = table.concat({
+            "====== BACKDOOR FOUND ======",
+            "🟢 " .. foundClass,
+            "    Name : " .. foundName,
+            "    Path : " .. foundPath,
+            "    Time : " .. scanTime .. "s",
+            "============================",
+        }, "\n")
+
+        setStatus("Found: " .. foundName, Color3.fromRGB(159, 226, 191))
+
+        -- แจ้งเตือน Notification
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "🔍 Backdoor Scanner",
+            Text = "Backdoor found in " .. scanTime .. "s!\n" .. foundClass .. ": " .. foundName,
+            Duration = 5,
+        })
+
+    else
+        -- ไม่เจอ
+        TextBox_7.Text = table.concat({
+            "====== SCAN COMPLETE ======",
+            "✅ No backdoors found!",
+            "   Scanned in " .. scanTime .. "s",
+            "   Map looks clean.",
+            "===========================",
+        }, "\n")
+
+        setStatus("Clean! ✅", Color3.fromRGB(100, 255, 150))
+
+        task.wait(3)
+    end
+
+    -- UI: คืนปุ่ม scan
+    TextButton_19.Visible = true
+    TextButton_17.Visible = true
+    scanning = false
 end
 
 TextButton_19.MouseButton1Click:Connect(doScan)
